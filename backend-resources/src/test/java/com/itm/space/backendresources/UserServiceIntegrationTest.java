@@ -25,7 +25,6 @@ public class UserServiceIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void testCreateUser() {
-        // Подготавливаем данные для теста
         UserRequest userRequest = new UserRequest(
                 "testuser",
                 "test@example.com",
@@ -34,8 +33,6 @@ public class UserServiceIntegrationTest extends BaseIntegrationTest {
                 "User"
         );
 
-        // Проверяем, что метод не падает с ошибкой компиляции
-        // В реальности этот тест покажет, что Keycloak недоступен
         assertThrows(Exception.class, () -> {
             userService.createUser(userRequest);
         });
@@ -43,11 +40,8 @@ public class UserServiceIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void testGetUserById() {
-        // Создаем случайный ID пользователя
         UUID userId = UUID.randomUUID();
 
-        // Проверяем, что метод не падает с ошибкой компиляции
-        // В реальности этот тест покажет, что пользователь не найден
         assertThrows(Exception.class, () -> {
             userService.getUserById(userId);
         });
@@ -55,7 +49,6 @@ public class UserServiceIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void testServiceIsAvailable() {
-        // Проверяем, что Spring смог создать сервис
         assertNotNull(userService);
     }
 
@@ -73,30 +66,26 @@ public class UserServiceIntegrationTest extends BaseIntegrationTest {
             }
             """;
 
-        // Отправляем POST запрос на создание пользователя
         mvc.perform(
                 post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson)
         )
-        .andExpect(status().is5xxServerError()); // Ожидаем ошибку сервера
+        .andExpect(status().is5xxServerError());
     }
 
     @Test
     @WithMockUser(roles = "MODERATOR")
     void testGetUserViaHttp() throws Exception {
-        // Создаем случайный ID
         UUID userId = UUID.randomUUID();
 
-        // Отправляем GET запрос для получения пользователя
         mvc.perform(get("/api/users/" + userId))
-                .andExpect(status().is5xxServerError()); // Ожидаем ошибку сервера
+                .andExpect(status().is5xxServerError());
     }
 
     @Test
     @WithMockUser(roles = "MODERATOR")
     void testHelloEndpoint() throws Exception {
-        // Проверяем простой эндпоинт, который должен работать
         mvc.perform(get("/api/users/hello"))
                 .andExpect(status().isOk());
     }
