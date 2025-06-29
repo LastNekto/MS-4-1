@@ -1,0 +1,18 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: backend-resources-test
+
+keycloak:
+  realm: ITM
+  resource: backend-resources
+  auth-server-url: http://localhost:8080/auth
+  credentials:
+    secret: test-secret
+
+logging:
+  level:
+    com.itm.space.backendresources: DEBUG
+    org.keycloak: DEBUG 
