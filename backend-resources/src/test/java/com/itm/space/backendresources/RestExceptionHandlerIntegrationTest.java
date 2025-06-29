@@ -17,8 +17,6 @@ public class RestExceptionHandlerIntegrationTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(roles = "MODERATOR")
     void testBackendResourcesExceptionHandling() throws Exception {
-        // Тестируем обработку BackendResourcesException
-        // Этот запрос вызовет исключение, так как Keycloak недоступен
         mvc.perform(get("/api/users/" + java.util.UUID.randomUUID()))
                 .andExpect(status().is5xxServerError())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Exception")));
@@ -27,8 +25,6 @@ public class RestExceptionHandlerIntegrationTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(roles = "MODERATOR")
     void testValidationExceptionHandling() throws Exception {
-        // Тестируем обработку ошибок валидации
-        // Отправляем невалидный JSON
         String invalidJson = """
             {
               "username": "",
@@ -51,7 +47,6 @@ public class RestExceptionHandlerIntegrationTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(roles = "MODERATOR")
     void testHelloEndpointWorksNormally() throws Exception {
-        // Проверяем, что обычные запросы работают нормально
         mvc.perform(get("/api/users/hello"))
                 .andExpect(status().isOk());
     }
